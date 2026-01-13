@@ -61,7 +61,7 @@ export async function markOrderRefunded(orderId: string) {
     if (order.cardKey) {
         const keys = order.cardKey.split('\n').map((k: string) => k.trim()).filter((k: string) => k !== '')
         if (keys.length > 0) {
-            const uniqueKeys = Array.from(new Set(keys))
+            const uniqueKeys = Array.from(new Set(keys)) as string[]
             await db.update(cards).set({ isUsed: false, usedAt: null })
                 .where(and(eq(cards.productId, order.productId), inArray(cards.cardKey, uniqueKeys)))
         }
